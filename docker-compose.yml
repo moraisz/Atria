@@ -1,0 +1,58 @@
+name: atria
+
+services:
+  app:
+    container_name: Atria
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      additional_contexts:
+        atria-core: ../AtriaCore
+      args:
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
+        USER: appuser
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+      - "2019:2019"
+      - "5173:5173"
+    volumes:
+      - ./:/app
+      - ../AtriaCore:/AtriaCore
+      - ./docker/php/custom_dev.ini:/usr/local/etc/php/conf.d/custom.ini
+      - ./docker/caddy/Caddyfile.dev:/etc/caddy/Caddyfile
+    depends_on:
+      - db
+    networks:
+      - AtriaNetwork
+
+  db:
+    container_name: AtriaDB
+    image: postgres:18.4-trixie
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: ${DB_DATABASE:-atria_php}
+      POSTGRES_USER: ${DB_USERNAME:-atria_php_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-atria_php_password}
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --lc-collate=C --lc-ctype=C"
+    volumes:
+      - db:/var/lib/postgresql/data/18/main/
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    networks:
+      - AtriaNetwork
+
+volumes:
+  db:
+    driver: local
+
+networks:
+  AtriaNetwork:
+    driver: bridge

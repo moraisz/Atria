@@ -1,0 +1,34 @@
+name: Quality
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          coverage: none
+
+      - name: Validate Composer manifest
+        run: composer validate --no-check-publish
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-interaction
+
+      - name: Check code style
+        run: composer cs-check
+
+      - name: Run PHPStan
+        run: composer phpstan
+
+      - name: Run tests
+        run: composer test

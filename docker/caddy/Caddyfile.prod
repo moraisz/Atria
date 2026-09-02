@@ -1,0 +1,32 @@
+{
+    frankenphp
+}
+
+{$APP_DOMAIN}, http://127.0.0.1 {
+    root * /app/public
+    encode zstd br gzip
+
+    mercure {
+        publisher_jwt {$MERCURE_PUBLISHER_JWT_KEY}
+        subscriber_jwt {$MERCURE_SUBSCRIBER_JWT_KEY}
+        anonymous
+    }
+
+    php_server {
+        try_files {path} /index.php
+        root /app/public
+
+        worker {
+            file /app/public/index.php
+            max_consecutive_failures 10
+        }
+    }
+
+    file_server
+
+    log {
+        output stdout
+        format json
+        level INFO
+    }
+}

@@ -1,0 +1,12 @@
+#!/usr/bin/env php
+<?php
+
+require __DIR__ . '/vendor/autoload.php';
+
+use Atria\System\App;
+
+$app = new App(__DIR__ . '/config');
+
+$status = $app->handleCommand();
+
+exit($status);
