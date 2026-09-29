@@ -1,5 +1,10 @@
 {
-    frankenphp
+    # 0 keeps FrankenPHP's automatic sizing (2 threads per CPU); see .env.example
+    frankenphp {
+        num_threads {$FRANKENPHP_NUM_THREADS:0}
+        max_threads {$FRANKENPHP_MAX_THREADS:0}
+        max_wait_time {$FRANKENPHP_MAX_WAIT_TIME:0s}
+    }
     admin 0.0.0.0:2019
 }
 
@@ -20,6 +25,7 @@
         hot_reload
         worker {
             file /app/public/index.php
+            num {$FRANKENPHP_WORKERS:0}
             max_consecutive_failures 10
             watch
         }
