@@ -1,6 +1,10 @@
-FROM dunglas/frankenphp:1.12.7-builder-php8.5.6-bookworm AS extension
+FROM dunglas/frankenphp:1.12.7-builder-php8.5.11-bookworm AS extension
 
-ARG PHP_VERSION=8.5.6
+ARG PHP_VERSION=8.5.11
+# Caddy modules pinned to the versions in FrankenPHP 1.12.7's caddy/go.mod
+ARG CADDY_CBROTLI_VERSION=v1.0.1
+ARG MERCURE_VERSION=v0.24.2
+ARG VULCAIN_VERSION=v1.4.2
 
 COPY --from=caddy:2-builder /usr/bin/xcaddy /usr/bin/xcaddy
 
@@ -22,15 +26,15 @@ RUN CGO_ENABLED=1 \
         --output /usr/local/bin/frankenphp \
         --with github.com/dunglas/frankenphp=/go/src/app \
         --with github.com/dunglas/frankenphp/caddy=/go/src/app/caddy \
-        --with github.com/dunglas/caddy-cbrotli \
-        --with github.com/dunglas/mercure/caddy \
-        --with github.com/dunglas/vulcain/caddy \
+        --with github.com/dunglas/caddy-cbrotli@${CADDY_CBROTLI_VERSION} \
+        --with github.com/dunglas/mercure/caddy@${MERCURE_VERSION} \
+        --with github.com/dunglas/vulcain/caddy@${VULCAIN_VERSION} \
         --with github.com/moraisz/atria-core/extensions=/go/src/app/extensions
 
 RUN frankenphp php-cli -r 'if (!function_exists("repeat_this")) { exit(1); } if (repeat_this("abc", 2, false) !== "abcabc") { exit(1); } if (repeat_this("abc", 2, true) !== "cbacba") { exit(1); }'
 
 # Stage 1: PHP Builder
-FROM dunglas/frankenphp:1.12.7-builder-php8.5.6-bookworm AS builder
+FROM dunglas/frankenphp:1.12.7-builder-php8.5.11-bookworm AS builder
 
 # Install system dependencies for PHP extensions
 RUN apt-get update && apt-get install -y \
@@ -60,7 +64,7 @@ RUN install-php-extensions \
 # ---------------------------------------------------------------------
 
 # Stage 2: Production Runner
-FROM dunglas/frankenphp:1.12.7-php8.5.6-bookworm AS runner
+FROM dunglas/frankenphp:1.12.7-php8.5.11-bookworm AS runner
 
 ARG USER=appuser
 ARG UID=1000
