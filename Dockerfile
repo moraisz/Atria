@@ -51,7 +51,8 @@ RUN apt-get update && apt-get install -y \
 
 # Install PHP extensions
 RUN install-php-extensions \
-    pdo_pgsql \
+    mysqli \
+    pgsql \
     mbstring \
     exif \
     pcntl \
