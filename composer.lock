@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "325e57c238b95d089dfe3ba7bdb79623",
+    "content-hash": "ea81720ac3c0441f18f271c343c69e2a",
     "packages": [
         {
             "name": "moraisz/atria-core",
-            "version": "v0.0.1-alpha",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/moraisz/AtriaCore.git",
-                "reference": "e8acdb771e966900571af8266696de74456dd741"
+                "reference": "02bafe64d11c071a05bae48ce01117e723796e5f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/moraisz/AtriaCore/zipball/e8acdb771e966900571af8266696de74456dd741",
-                "reference": "e8acdb771e966900571af8266696de74456dd741",
+                "url": "https://api.github.com/repos/moraisz/AtriaCore/zipball/02bafe64d11c071a05bae48ce01117e723796e5f",
+                "reference": "02bafe64d11c071a05bae48ce01117e723796e5f",
                 "shasum": ""
             },
             "require": {
@@ -25,7 +25,7 @@
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3.95",
-                "pestphp/pest": "^4.7",
+                "pestphp/pest": "^5.1",
                 "phpstan/phpstan": "^2.2"
             },
             "bin": [
@@ -44,9 +44,9 @@
             "description": "Core runtime for the Atria PHP framework.",
             "support": {
                 "issues": "https://github.com/moraisz/AtriaCore/issues",
-                "source": "https://github.com/moraisz/AtriaCore/tree/v0.0.1-alpha"
+                "source": "https://github.com/moraisz/AtriaCore/tree/v1.0.0"
             },
-            "time": "2026-08-25T16:44:11+00:00"
+            "time": "2026-09-29T03:19:05+00:00"
         }
     ],
     "packages-dev": [
@@ -6048,9 +6048,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "moraisz/atria-core": 15
-    },
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
