@@ -10,11 +10,13 @@ use Atria\Modules\Auth\AuthManager;
 use Atria\Modules\Auth\Exceptions\AuthenticationException;
 use Atria\Modules\Auth\Data\AuthenticatedPrincipal;
 use Atria\Http\Response;
+use Atria\Http\Session;
 
 class AuthController extends Controller
 {
     public function __construct(
         private AuthManager $authManager,
+        private Session $session,
     ) {}
 
     public function login(): Response
@@ -108,8 +110,7 @@ class AuthController extends Controller
 
     private function pullError(): ?string
     {
-        $error = $_SESSION['error'] ?? null;
-        unset($_SESSION['error']);
+        $error = $this->session->pull('error');
 
         return is_string($error) ? $error : null;
     }
